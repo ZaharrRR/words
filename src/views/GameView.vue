@@ -2,6 +2,9 @@
   <div>
     <h1>Game</h1>
 
+    <h2 v-if="gameStore.isWin">Вы победили!</h2>
+    <h2 v-if="gameStore.isDefeat">Вы проиграли...</h2>
+
     <div class="grid">
       <div class="word" v-for="word in gameStore.wordsArr" :key="word.position">
         <div
@@ -33,10 +36,12 @@ const gameStore = useGameStore()
 const tryWord = ref('')
 
 const checkWord = () => {
-  if (tryWord.value) {
+  if (tryWord.value && gameStore.currentPosition <= gameStore.maxPosition) {
     gameStore.checkWord(tryWord.value)
+  } else if (gameStore.currentPosition > gameStore.maxPosition) {
+    alert('Игра окончена')
   } else {
-    alert('Please enter a word')
+    alert('Введите слово')
   }
 }
 

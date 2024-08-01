@@ -17,6 +17,8 @@ import { ref } from 'vue'
 import { useGameStore } from '@/stores/GameStore'
 import { storeToRefs } from 'pinia'
 
+import router from '@/router'
+
 const gameStore = useGameStore()
 
 const questionWord = ref('')
@@ -24,6 +26,7 @@ const questionWord = ref('')
 const setWord = () => {
   if (questionWord.value) {
     gameStore.setWord(questionWord.value)
+    router.push('/game')
   } else {
     alert('Please enter a word')
   }

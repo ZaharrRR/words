@@ -13,14 +13,24 @@ interface Cell {
 interface State {
   word: string
   wordsArr: Word[]
+
   currentPosition: number
+  maxPosition: number
+
+  isWin: boolean
+  isDefeat: boolean
 }
 
 export const useGameStore = defineStore('gameStore', {
   state: (): State => ({
     word: '',
     wordsArr: [],
-    currentPosition: 1
+
+    currentPosition: 1,
+    maxPosition: 5,
+
+    isWin: false,
+    isDefeat: false
   }),
 
   getters: {},
@@ -46,6 +56,19 @@ export const useGameStore = defineStore('gameStore', {
       }
 
       this.currentPosition++
+
+      this.checkGame()
+    },
+
+    checkGame() {
+      const lastWord = this.wordsArr[this.currentPosition - 2]
+      const isWin = lastWord.cells.every((cell) => cell.status === 'exactly')
+
+      if (isWin) {
+        this.isWin = true
+      } else if (this.currentPosition === this.maxPosition + 1) {
+        this.isDefeat = true
+      } else return
     },
 
     geterateWordsArr() {
