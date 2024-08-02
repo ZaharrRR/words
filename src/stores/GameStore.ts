@@ -71,7 +71,14 @@ export const useGameStore = defineStore('gameStore', {
       } else return
     },
 
-    geterateWordsArr() {
+    replay() {
+      this.generateWordsArr()
+      this.currentPosition = 1
+      this.isDefeat = false
+      this.isWin = false
+    },
+
+    generateWordsArr() {
       this.wordsArr = []
       for (let i = 0; i < 5; i++) {
         this.wordsArr.push({

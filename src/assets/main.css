@@ -12,3 +12,8 @@ a {
   color: white;
   text-decoration: none;
 }
+
+button {
+  background-color: #5e5e5e;
+  padding: 8px 12px;
+}

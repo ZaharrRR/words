@@ -2,9 +2,6 @@
   <div>
     <h1>Game</h1>
 
-    <h2 v-if="gameStore.isWin">Вы победили!</h2>
-    <h2 v-if="gameStore.isDefeat">Вы проиграли...</h2>
-
     <div class="grid">
       <div class="word" v-for="word in gameStore.wordsArr" :key="word.position">
         <div
@@ -22,27 +19,53 @@
       <input type="text" v-model="tryWord" minlength="5" maxlength="5" />
       <button type="submit">try</button>
     </form>
+
+    <EndGameModal
+      :isWin="gameStore.isWin"
+      :isOpen="isGameEnd"
+      @replay="replay()"
+      @newWord="newWord()"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+
+import EndGameModal from '@/components/EndGameModal.vue'
 
 import { useGameStore } from '@/stores/GameStore'
 import { storeToRefs } from 'pinia'
+import router from '@/router'
 
 const gameStore = useGameStore()
 
 const tryWord = ref('')
 
+const isGameEnd = computed(() => {
+  if (gameStore.currentPosition > gameStore.maxPosition) return true
+  else if (gameStore.isWin || gameStore.isDefeat) return true
+  else return false
+})
+
 const checkWord = () => {
-  if (tryWord.value && gameStore.currentPosition <= gameStore.maxPosition) {
+  if (tryWord.value && !isGameEnd.value) {
     gameStore.checkWord(tryWord.value)
-  } else if (gameStore.currentPosition > gameStore.maxPosition) {
+  } else if (isGameEnd.value) {
     alert('Игра окончена')
   } else {
     alert('Введите слово')
   }
+  tryWord.value = ''
+}
+
+const replay = () => {
+  gameStore.replay()
+}
+
+const newWord = () => {
+  gameStore.replay()
+  router.push('/question')
 }
 
 const getCellClass = (status: string) => {
@@ -59,7 +82,7 @@ const getCellClass = (status: string) => {
 }
 
 onMounted(() => {
-  gameStore.geterateWordsArr()
+  gameStore.generateWordsArr()
 })
 </script>
 
