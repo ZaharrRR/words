@@ -1,14 +1,8 @@
 import { defineStore } from 'pinia'
 
-interface Word {
-  position: number
-  cells: Cell[]
-}
+import { Word } from '@/domain/word'
 
-interface Cell {
-  letter: string
-  status: '' | 'partially' | 'absent' | 'exactly'
-}
+import { words } from '@/const'
 
 interface State {
   word: string
@@ -107,6 +101,12 @@ export const useGameStore = defineStore('gameStore', {
           ]
         })
       }
+    },
+
+    generateRandomWord() {
+      const randomWord = words[Math.floor(Math.random() * words.length)]
+
+      this.setWord(randomWord)
     }
   }
 })

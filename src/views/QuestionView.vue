@@ -1,13 +1,15 @@
 <template>
-  <div>
-    <h1>Question</h1>
+  <div class="question-page">
+    <h1>Создание слова</h1>
 
-    <p>текущее слово: {{ gameStore.word }}</p>
+    <div>
+      <p>текущее слово: {{ gameStore.word }}</p>
 
-    <form @submit.prevent="setWord">
-      <input type="text" v-model="questionWord" minlength="5" maxlength="5" />
-      <button type="submit">save</button>
-    </form>
+      <form class="question-form" @submit.prevent="setWord">
+        <input type="text" v-model="questionWord" minlength="5" maxlength="5" />
+        <button type="submit">начать</button>
+      </form>
+    </div>
   </div>
 </template>
 
@@ -33,4 +35,15 @@ const setWord = () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.question-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.question-form {
+  display: flex;
+  gap: 12px;
+}
+</style>

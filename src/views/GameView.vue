@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>Game</h1>
-
+  <div class="game-page">
     <div class="grid">
       <div class="word" v-for="word in gameStore.wordsArr" :key="word.position">
         <div
@@ -15,9 +13,9 @@
       </div>
     </div>
 
-    <form @submit.prevent="checkWord">
+    <form class="game-form" @submit.prevent="checkWord">
       <input type="text" v-model="tryWord" minlength="5" maxlength="5" />
-      <button type="submit">try</button>
+      <button type="submit">ввести</button>
     </form>
 
     <EndGameModal
@@ -35,7 +33,7 @@ import { computed, onMounted, ref } from 'vue'
 import EndGameModal from '@/components/EndGameModal.vue'
 
 import { useGameStore } from '@/stores/GameStore'
-import { storeToRefs } from 'pinia'
+
 import router from '@/router'
 
 const gameStore = useGameStore()
@@ -126,5 +124,14 @@ onMounted(() => {
   color: white;
 
   user-select: none;
+}
+.game-form {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.game-form input {
+  width: 100%;
 }
 </style>
