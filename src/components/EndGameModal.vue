@@ -7,6 +7,11 @@
       <h2 v-if="isWin">Вы победили!</h2>
       <h2 v-else>Вы проиграли...</h2>
 
+      <button class="modal-toggle" @click="toggleShowWord">
+        {{ isShowWord ? 'скрыть слово' : 'показать слово' }}
+      </button>
+      <p v-if="isShowWord">загаданное слово: {{ word }}</p>
+
       <div class="modal-buttons">
         <button @click="$emit('replay')">Еще раз</button>
         <button @click="$emit('newWord')">Загадать новое слово</button>
@@ -16,12 +21,20 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 defineProps({
   isWin: Boolean,
-  isOpen: Boolean
+  isOpen: Boolean,
+  word: String
 })
 
 defineEmits(['replay', 'newWord'])
+
+const isShowWord = ref(false)
+
+const toggleShowWord = () => {
+  isShowWord.value = !isShowWord.value
+}
 </script>
 
 <style scoped>
@@ -51,6 +64,10 @@ defineEmits(['replay', 'newWord'])
   align-items: center;
   text-align: center;
   gap: 24px;
+}
+
+.modal-toggle {
+  margin-top: 24px;
 }
 
 .modal-buttons {

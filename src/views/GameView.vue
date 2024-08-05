@@ -14,13 +14,17 @@
     </div>
 
     <form class="game-form" @submit.prevent="checkWord">
-      <input type="text" v-model="tryWord" minlength="5" maxlength="5" />
-      <button type="submit">ввести</button>
+      <label for="tryWord">Введите слово:</label>
+      <div class="input-block">
+        <input id="tryWord" type="text" v-model="tryWord" minlength="5" maxlength="5" />
+        <button type="submit">пробуем</button>
+      </div>
     </form>
 
     <EndGameModal
       :isWin="gameStore.isWin"
       :isOpen="isGameEnd"
+      :word="gameStore.word"
       @replay="replay()"
       @newWord="newWord()"
     />
@@ -90,8 +94,8 @@ onMounted(() => {
 }
 
 .cell {
-  width: 75px;
-  height: 75px;
+  width: 60px;
+  height: 60px;
 
   display: flex;
   align-items: center;
@@ -126,12 +130,16 @@ onMounted(() => {
   user-select: none;
 }
 .game-form {
-  display: flex;
-  gap: 12px;
   margin-top: 24px;
 }
 
 .game-form input {
+  width: 100%;
+}
+
+.input-block {
+  display: flex;
+  gap: 12px;
   width: 100%;
 }
 </style>
